@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "123907677476",
+    "project_id": "mysololife-bad77",
+    "storage_bucket": "mysololife-bad77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:123907677476:android:a38282c35c1852ea5be7b1",
+        "android_client_info": {
+          "package_name": "com.example.mysololife"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDX0UtNllDiD0q3pXw7iyEi05wKhsT8ttA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
