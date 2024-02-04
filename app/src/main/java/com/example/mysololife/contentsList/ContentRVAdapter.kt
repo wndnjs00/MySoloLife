@@ -16,7 +16,7 @@ import com.example.mysololife.R
 import com.example.mysololife.utils.FBAuth
 import com.example.mysololife.utils.FBRef
 
-class ContentRVAdapter(val context : Context, val items : ArrayList<ContentModel>, val keyList : ArrayList<String>,val bookmarkIdList : MutableList<String> )
+class ContentRVAdapter(val context : Context, val items : ArrayList<ContentModel>, val keyList : ArrayList<String>, val bookmarkIdList : MutableList<String> )
     : RecyclerView.Adapter<ContentRVAdapter.ViewHolder>(){
 
 
@@ -24,11 +24,15 @@ class ContentRVAdapter(val context : Context, val items : ArrayList<ContentModel
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContentRVAdapter.ViewHolder {
         // 아이템 레이아웃 연결
         val v = LayoutInflater.from(parent.context).inflate(R.layout.content_rv_item, parent,false)
+
+        Log.d("ContentRVAdapter", keyList.toString())
+        Log.d("ContentRVAdapter", bookmarkIdList.toString())
         return ViewHolder(v)
     }
 
     override fun onBindViewHolder(holder: ContentRVAdapter.ViewHolder, position: Int) {
 
+        // 아이템 보내줌
         holder.bindItems(items[position], keyList[position])
     }
 
@@ -38,7 +42,7 @@ class ContentRVAdapter(val context : Context, val items : ArrayList<ContentModel
 
     inner class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindItems(item : ContentModel, key : String){
+        fun bindItems(item : ContentModel, key : String ){
 
             // 리사이클러뷰 아이템 클릭시
             itemView.setOnClickListener {
@@ -56,16 +60,40 @@ class ContentRVAdapter(val context : Context, val items : ArrayList<ContentModel
             val bookmarkArea = itemView.findViewById<ImageView>(R.id.bookmarkArea)
 
 
+            // 북마크 클릭했을때 색칠되게
+            // key리스트들이 bookmarkIdList에 포함되어있는지
+            if(bookmarkIdList.contains(key)){
+                bookmarkArea.setImageResource(R.drawable.bookmark_color)
+            }else{
+                bookmarkArea.setImageResource(R.drawable.bookmark_white)
+            }
+
+
             // bookmarkArea 클릭시
             bookmarkArea.setOnClickListener {
                 Log.d("ContentRVAdapter", FBAuth.getUid())
                 Toast.makeText(context, key, Toast.LENGTH_SHORT).show()
 
 
-                // bookmark_list를 가져와서 FBAuth.getUid안에 contentId값(키값)을 집어넣는다
-                FBRef.bookmarkRef
-                    .child(FBAuth.getUid())
-                    .child(key).setValue(BookmarkModel(true))
+                if(bookmarkIdList.contains(key)){
+                    // 북마크가 있을때 (북마크 클릭O)
+
+                    // bookmark_list를 가져와서 FBAuth.getUid안에 contentId값(키값)을 집어넣는데, 그값을 삭제
+                    FBRef.bookmarkRef
+                        .child(FBAuth.getUid())
+                        .child(key)
+                        .removeValue()
+
+                }else{
+                    // 북마크가 없을때 (북마크 클릭X)
+
+                    // bookmark_list를 가져와서 FBAuth.getUid안에 contentId값(키값)을 집어넣는다
+                    FBRef.bookmarkRef
+                        .child(FBAuth.getUid())
+                        .child(key)
+                        .setValue(BookmarkModel(true))
+                }
+
             }
 
 
