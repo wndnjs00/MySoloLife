@@ -72,7 +72,7 @@ class ContentListActivity : AppCompatActivity() {
         }
 
 
-
+        // 데이터 가져오기
         val postListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -101,7 +101,6 @@ class ContentListActivity : AppCompatActivity() {
 
         //리사이클러뷰 연결
         val rv : RecyclerView = findViewById(R.id.rv)
-
 
 
         // ContentRVAdapter를 rvAdapter에 연결
@@ -163,8 +162,6 @@ class ContentListActivity : AppCompatActivity() {
                 rvAdapter.notifyDataSetChanged()
 
             }
-
-
 
             override fun onCancelled(databaseError: DatabaseError) {
                 // Getting Post failed, log a message
