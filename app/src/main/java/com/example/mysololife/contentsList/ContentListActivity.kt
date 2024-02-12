@@ -79,9 +79,11 @@ class ContentListActivity : AppCompatActivity() {
                 for (dataModel in dataSnapshot.children){
                     Log.d("ContentListActivity",dataModel.toString())
                     Log.d("ContentListActivity", dataModel.key.toString())
+
+                    // 데이터 받아오기
                     val item = dataModel.getValue(ContentModel::class.java)
-                    items.add(item!!)
-                    itemKeyList.add(dataModel.key.toString())
+                    items.add(item!!)   //ContentModel에 데이터 하나씩 넣어줌
+                    itemKeyList.add(dataModel.key.toString())   // itemKeyList에 key값 하나씩 넣어줌
 
                 }
                 rvAdapter.notifyDataSetChanged()

@@ -18,8 +18,11 @@ class FBRef {
         val category7 = database.getReference("contents7")
         val category8 = database.getReference("contents8")
 
-
+        // 파이어베이스에 bookmark_list 추가
         val bookmarkRef = database.getReference("bookmark_list")
+
+        // 파이어베이스에 board 추가
+        val boardRef = database.getReference("board")
 
     }
 }
