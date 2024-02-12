@@ -119,7 +119,6 @@ class BookmarkFragment : Fragment() {
         FBRef.category6.addValueEventListener(postListener)
         FBRef.category7.addValueEventListener(postListener)
         FBRef.category8.addValueEventListener(postListener)
-
     }
 
 
