@@ -24,5 +24,9 @@ class FBRef {
         // 파이어베이스에 board 추가
         val boardRef = database.getReference("board")
 
+        // 파이어베이스에 comment 추가
+        val commentRef = database.getReference("comment")
+
+
     }
 }

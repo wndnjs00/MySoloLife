@@ -14,6 +14,8 @@ import androidx.core.view.isVisible
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.example.mysololife.R
+import com.example.mysololife.comment.CommentLVAdapter
+import com.example.mysololife.comment.CommentModel
 import com.example.mysololife.databinding.ActivityBoardInsideBinding
 import com.example.mysololife.utils.FBAuth
 import com.example.mysololife.utils.FBRef
@@ -32,6 +34,10 @@ class BoardInsideActivity : AppCompatActivity() {
 
     // key값 선언
     private lateinit var key : String
+
+    private val commentDataList = mutableListOf<CommentModel>()
+
+    private lateinit var commentAdapter : CommentLVAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -65,8 +71,81 @@ class BoardInsideActivity : AppCompatActivity() {
 
         getBoardData(key)
         getImageData(key)
+
+
+        // 댓글 입력버튼 눌렀을때
+        binding.commentBtn.setOnClickListener {
+            insertComment(key)
+        }
+
+
+        // 어뎁터와 ListView 연결
+        commentAdapter= CommentLVAdapter(commentDataList)
+        binding.commentLV.adapter = commentAdapter
+
+
+        getCommentData(key)
+
     }
 
+
+
+    // CommentData 받아오는(가져오는) 함수
+    fun getCommentData(key : String){
+
+        // 데이터 가져오기
+        val postListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                // 겹쳐서 출력되는 현상 방지 (데이터 초기화)
+                commentDataList.clear()
+
+                for (dataModel in dataSnapshot.children){
+
+                    // 데이터 받아오기
+                    val item = dataModel.getValue(CommentModel::class.java)
+                    commentDataList.add(item!!)   // commentDataList에 데이터 하나씩 넣어줌
+
+                }
+
+                commentAdapter.notifyDataSetChanged()
+
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException())
+            }
+        }
+        FBRef.commentRef.child(key).addValueEventListener(postListener)
+
+    }
+
+
+
+
+    // 파이어베이스에 입력한 댓글 저장하는 함수
+    fun insertComment(key : String){
+//        <데이터구조>
+//        comment
+//          - Boardkey
+//             - Commentkey
+//                - CommentData
+//                - CommentData
+//                - CommentData
+
+        FBRef.commentRef
+            .child(key)     // Boardkey
+            .push()         // Commentkey
+            .setValue(CommentModel(binding.commentArea.text.toString(),     // 내가 입력한 댓글 집어넣음
+                                    FBAuth.getTime()))                      // 시간 집어넣음
+
+        Toast.makeText(this, "댓글 입력완료", Toast.LENGTH_SHORT).show()
+        // 텍스트 지워줌
+        binding.commentArea.setText("")
+
+
+    }
 
 
 
@@ -148,6 +227,9 @@ class BoardInsideActivity : AppCompatActivity() {
 
                 // 이미지 업로드 실패
             }else{
+
+                // 이미지를 업로드하지 않았을때는 getImageArea를 보이지않도록
+                binding.getImageArea.isVisible = false
 
             }
         })

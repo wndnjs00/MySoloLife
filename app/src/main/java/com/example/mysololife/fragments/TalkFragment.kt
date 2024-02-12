@@ -148,6 +148,7 @@ class TalkFragment : Fragment() {
             }
         }
         FBRef.boardRef.addValueEventListener(postListener)
+
     }
 
 
