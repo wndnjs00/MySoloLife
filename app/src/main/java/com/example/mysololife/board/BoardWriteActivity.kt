@@ -30,6 +30,8 @@ class BoardWriteActivity : AppCompatActivity() {
     // 이미지 업로드 노
     private var isImageUploade = false
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)

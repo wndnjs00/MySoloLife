@@ -77,10 +77,10 @@ class BoardEditActivity : AppCompatActivity() {
         // 데이터 집어넣기
         FBRef.boardRef
             .child(key)
-            .setValue(BoardModel(binding.titleArea.text.toString(),     // text
-                                 binding.contentArea.text.toString(),   // content
-                                 writeUid,                              // uid      // FBAuth.getUid() 로 써도됨
-                                 FBAuth.getTime())                      // time
+            .setValue(BoardModel(binding.titleArea.text.toString(),     // 내가 작성한 titleArea값
+                                 binding.contentArea.text.toString(),   // 내가 작성한 contentArea값
+                                 writeUid,                              // 작성한 uid      // FBAuth.getUid() 로 써도됨
+                                 FBAuth.getTime())                      // 현재 time
             )
 
         // 이미지 업로드

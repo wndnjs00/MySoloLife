@@ -39,6 +39,7 @@ class BoardInsideActivity : AppCompatActivity() {
 
     private lateinit var commentAdapter : CommentLVAdapter
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -70,6 +71,7 @@ class BoardInsideActivity : AppCompatActivity() {
         key = intent.getStringExtra("key").toString()
 
         getBoardData(key)
+        // 이미지 업로드
         getImageData(key)
 
 
@@ -179,7 +181,7 @@ class BoardInsideActivity : AppCompatActivity() {
         // 삭제버튼 눌렀을때
         alertDialog.findViewById<Button>(R.id.removeBtn)?.setOnClickListener {
 
-            // "정말 삭제하겠습니다?" 다이얼로그 추가
+            // "정말 삭제하겠습니까?" 다이얼로그 추가
             val builder = AlertDialog.Builder(this)
             builder.setTitle("게시글 삭제")
                 .setMessage("정말로 삭제하시겠습니까? 삭제하시면 복구할수없습니다")
@@ -235,6 +237,7 @@ class BoardInsideActivity : AppCompatActivity() {
         })
 
     }
+
 
 
     // board데이터 받아오는 함수
