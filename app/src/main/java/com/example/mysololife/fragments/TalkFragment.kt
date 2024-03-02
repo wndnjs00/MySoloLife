@@ -67,7 +67,7 @@ class TalkFragment : Fragment() {
 
 
         // 어뎁터와 ListView 연결
-        boardRVAdapter = BoadListLVAdapter(boardDataList)
+        boardRVAdapter = BoadListLVAdapter(requireContext(), boardDataList)
         binding.boardListView.adapter = boardRVAdapter
 
 
@@ -101,6 +101,7 @@ class TalkFragment : Fragment() {
         }
 
         getFBBoardData()
+
 
         return binding.root
 
@@ -151,6 +152,12 @@ class TalkFragment : Fragment() {
         FBRef.boardRef.addValueEventListener(postListener)
 
     }
+
+
+
+
+
+
 
 
 }

@@ -103,8 +103,6 @@ class ContentListActivity : AppCompatActivity() {
 
         //리사이클러뷰 연결
         val rv : RecyclerView = findViewById(R.id.rv)
-
-
         // ContentRVAdapter를 rvAdapter에 연결
 
         rv.adapter = rvAdapter

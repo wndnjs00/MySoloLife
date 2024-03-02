@@ -38,6 +38,7 @@ class BoardWriteActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_board_write)
 
 
+        // 업로드 버튼 클릭시
         binding.writeBtn.setOnClickListener {
 
             // titleArea,contentArea 값을 받아옴
@@ -57,7 +58,7 @@ class BoardWriteActivity : AppCompatActivity() {
             // 데이터 집어넣기
             FBRef.boardRef
                 .child(key)
-                .setValue(BoardModel(title,content,uid,time))
+                .setValue(BoardModel(title,content,uid,time,""))
 
             Toast.makeText(this, "게시글 입력완료", Toast.LENGTH_SHORT).show()
 
@@ -121,6 +122,8 @@ class BoardWriteActivity : AppCompatActivity() {
 
             // 받아온 데이터를 레이아웃에 표시(갤러리 데이터가 imageArea에 표시)
             binding.imageArea.setImageURI(data?.data)
+
+
         }
     }
 

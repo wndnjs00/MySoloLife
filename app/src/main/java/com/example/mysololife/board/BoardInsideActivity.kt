@@ -35,6 +35,7 @@ class BoardInsideActivity : AppCompatActivity() {
     // key값 선언
     private lateinit var key : String
 
+
     private val commentDataList = mutableListOf<CommentModel>()
 
     private lateinit var commentAdapter : CommentLVAdapter
@@ -217,15 +218,28 @@ class BoardInsideActivity : AppCompatActivity() {
 
         // ImageView in your Activity
         val imageViewFromFB = binding.getImageArea
+        val fileName = "${System.currentTimeMillis()}.png"
 
         storageReference.downloadUrl.addOnCompleteListener (OnCompleteListener { task ->
 
             // 이미지 업로드 성공
             if(task.isSuccessful){
                 // Glide를 사용하여 task에서 이미지 직접 다운로드
+
                 Glide.with(this)
                     .load(task.result)
                     .into(imageViewFromFB)
+
+//                Firebase.storage.reference.child(key + ".png").child(fileName).downloadUrl
+//                    .addOnSuccessListener {uri ->
+//                        mSuccessHandler(uri.toString())
+//
+//                    }.addOnFailureListener{
+//                        // 이미지를 업로드하지 않았을때는 getImageArea를 보이지않도록
+//                        binding.getImageArea.isVisible = false
+//                    }
+
+
 
                 // 이미지 업로드 실패
             }else{

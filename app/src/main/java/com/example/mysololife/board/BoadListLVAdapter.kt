@@ -1,19 +1,22 @@
 package com.example.mysololife.board
 
+import android.content.Context
 import android.graphics.Color
 import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.example.mysololife.R
 import com.example.mysololife.utils.FBAuth
 
 
 // BoardModel 데이터모델을 받아옴
-class BoadListLVAdapter(val boardList: MutableList<BoardModel>) : BaseAdapter() {
+class BoadListLVAdapter(private val context : Context, val boardList: MutableList<BoardModel>) : BaseAdapter() {
     override fun getCount(): Int {
         // boardList의 사이즈만큼 리턴
         return boardList.size
@@ -48,6 +51,16 @@ class BoadListLVAdapter(val boardList: MutableList<BoardModel>) : BaseAdapter() 
         // 내가 작성한 time값이 timeArea1에 적용되게
         val time = view?.findViewById<TextView>(R.id.timeArea1)
         time!!.text = boardList[position].time
+
+
+        // 내가 넣어준 이미지가 imageView에 적용되게 imageView에 선언
+        val imageView = view?.findViewById<ImageView>(R.id.imageView)
+
+        // 이미지 보이게 적용
+        Glide.with(context)
+            .load(boardList[position].url)
+            .into(imageView!!)
+
 
 
         val itemLinearLayoutView = view?.findViewById<LinearLayout>(R.id.itemView)
