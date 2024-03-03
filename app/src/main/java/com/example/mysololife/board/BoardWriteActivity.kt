@@ -41,26 +41,28 @@ class BoardWriteActivity : AppCompatActivity() {
         // 업로드 버튼 클릭시
         binding.writeBtn.setOnClickListener {
 
-            // titleArea,contentArea 값을 받아옴
-            val title = binding.titleArea.text.toString()
-            val content = binding.contentArea.text.toString()
-            // uid값 가져오기
-            val uid = FBAuth.getUid()
-            // tiem값 가져오기
-            val time = FBAuth.getTime()
-
-            Log.d(TAG, title)
-            Log.d(TAG, content)
-
+//            // titleArea,contentArea 값을 받아옴
+//            val title = binding.titleArea.text.toString()
+//            val content = binding.contentArea.text.toString()
+//            // uid값 가져오기
+//            val uid = FBAuth.getUid()
+//            // tiem값 가져오기
+//            val time = FBAuth.getTime()
+//
+//            Log.d(TAG, title)
+//            Log.d(TAG, content)
+//
             // 키값 받아오기 (키값 알아내기)
             val key = FBRef.boardRef.push().key.toString()
+//
+//            // 데이터 집어넣기
+//            FBRef.boardRef
+//                .child(key)
+//                .setValue(BoardModel(title,content,uid,time,""))
+//
+//            Toast.makeText(this, "게시글 입력완료", Toast.LENGTH_SHORT).show()
 
-            // 데이터 집어넣기
-            FBRef.boardRef
-                .child(key)
-                .setValue(BoardModel(title,content,uid,time,""))
 
-            Toast.makeText(this, "게시글 입력완료", Toast.LENGTH_SHORT).show()
 
 
             if (isImageUploade == true){
@@ -108,10 +110,52 @@ class BoardWriteActivity : AppCompatActivity() {
         uploadTask.addOnFailureListener {
             // Handle unsuccessful uploads
         }.addOnSuccessListener { taskSnapshot ->
-            // taskSnapshot.metadata contains file metadata such as size, content-type, etc.
-            // ...
+
+            mountainsRef.downloadUrl.addOnSuccessListener{uri ->
+
+                val imageUrl = uri.toString()
+
+                saveDataToDatabase(key, imageUrl)
+
+            }.addOnFailureListener {
+
+            }
         }
     }
+
+
+
+    private fun saveDataToDatabase(key: String, imageUrl: String) {
+        // titleArea,contentArea 값을 받아옴
+        val title = binding.titleArea.text.toString()
+        val content = binding.contentArea.text.toString()
+        // uid값 가져오기
+        val uid = FBAuth.getUid()
+        // tiem값 가져오기
+        val time = FBAuth.getTime()
+
+        Log.d(TAG, title)
+        Log.d(TAG, content)
+
+        // Push data to the Firebase Realtime Database
+        val boardModel = BoardModel(title, content, uid, time, imageUrl)
+
+        // Save data to Firebase
+        FBRef.boardRef
+            .child(key)
+            .setValue(boardModel)
+            .addOnSuccessListener {
+                Toast.makeText(this, "게시글 입력완료", Toast.LENGTH_SHORT).show()
+                // Finish activity
+                finish()
+            }
+            .addOnFailureListener {
+                // Handle errors
+            }
+    }
+
+
+
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
